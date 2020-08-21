@@ -132,7 +132,7 @@ public class Step04MethodTest extends PlainTestCase {
     //                                                                           Challenge
     //                                                                           =========
     // write instance variables here
-    private boolean availableLogging = true;
+    private final boolean availableLogging = true;
 
     /**
      * Make private methods as followings, and comment out caller program in test method:
@@ -162,19 +162,18 @@ public class Step04MethodTest extends PlainTestCase {
     }
 
     // write methods here
-    private String replaceAtoB(String atob) {
-        atob.replace("A", "B");
-        return atob;
+    private String replaceAtoB(String aToB) {
+        aToB = aToB.replace("A", "B");
+        return aToB;
     }
 
-    private String replaceCtoB(String ctob) {
-        ctob.replace("C", "B");
-        return ctob;
+    private String replaceCtoB(String cToB) {
+        cToB = cToB.replace("C", "B");
+        return cToB;
     }
 
     private String addPrefix(String str1, String str2) {
-        String consolidated = (str1 + ":" + str2);
-        return consolidated;
+        return str1 + ":" + str2;
     }
 
     private boolean isAvailableLogging() {

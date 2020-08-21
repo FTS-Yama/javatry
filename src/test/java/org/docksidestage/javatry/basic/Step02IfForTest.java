@@ -160,7 +160,7 @@ public class Step02IfForTest extends PlainTestCase {
      * (prepareStageList()のリストから "a" が含まれているものだけのリストを作成して、それをループで回してログに表示しましょう。(Stream APIなしで))
      */
 
-    public void test_iffor_making_listcontains_a(List<String> stage2List, String stage) {
+    public void test_iffor_making_listcontains_a(final List<String> stage2List, final String stage) {
         if (stage.contains("a")) {
             stage2List.add(stage);
             log(stage2List);
@@ -169,9 +169,9 @@ public class Step02IfForTest extends PlainTestCase {
 
     public void test_iffor_making() {
         // write if-for here
-        List<String> stageList = prepareStageList();
-        List<String> stage2List = new ArrayList<>();
-        for (String stage : stageList) {
+        final List<String> stageList = prepareStageList();
+        final List<String> stage2List = new ArrayList<>();
+        for (final String stage : stageList) {
             test_iffor_making_listcontains_a(stage2List, stage);
         }
     }
@@ -184,8 +184,8 @@ public class Step02IfForTest extends PlainTestCase {
      * (foreach文をforEach()メソッドへの置き換えてみましょう (修正前と修正後で実行結果が同じになるように))
      */
     public void test_iffor_refactor_foreach_to_forEach() {
-        List<String> stageList = prepareStageList();
-        StringBuilder sea = new StringBuilder();
+        final List<String> stageList = prepareStageList();
+        final StringBuilder sea = new StringBuilder();
         stageList.forEach(stage -> {
             if (stage.contains("ga")) {
                 sea.append(stage);
@@ -194,7 +194,6 @@ public class Step02IfForTest extends PlainTestCase {
         });
         log(sea); // should be same as before-fix
     }
-    // TODO forEachの置き換えがわからないので後回し
     /*
     public void test_iffor_refactor_foreach_to_forEach() {
         List<String> stageList = prepareStageList();
@@ -218,12 +217,23 @@ public class Step02IfForTest extends PlainTestCase {
      * <pre>
      * _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
      * your question here (ここにあなたの質問を):
-     *
+     *メソッド終了時の変数seaの中身は？
      * _/_/_/_/_/_/_/_/_/_/
      * </pre>
      */
     public void test_iffor_yourExercise() {
         // write your code here
+        List<String> stageList = prepareStageList();
+        for (final String stage : stageList) {
+            test_iffor_yourExercise_method(stage, stageList);
+        }
+    }
+
+    private void test_iffor_yourExercise_method(final String stage, final List<String> stageList) {
+        if (stage.contains("o")) {
+            final String sea = stage;
+            log(sea);
+        }
     }
 
     // ===================================================================================
