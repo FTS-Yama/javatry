@@ -25,6 +25,7 @@ public class TicketBooth {
     //                                                                          ==========
     private static final int MAX_QUANTITY = 10;
     private static final int ONE_DAY_PRICE = 7400; // when 2019/06/15
+    private static final int TWO_DAY_PRICE = 13200;
 
     // ===================================================================================
     //                                                                           Attribute
@@ -41,18 +42,76 @@ public class TicketBooth {
     // ===================================================================================
     //                                                                          Buy Ticket
     //                                                                          ==========
-    public void buyOneDayPassport(int handedMoney) {
-        if (quantity <= 0) {
-            throw new TicketSoldOutException("Sold out");
-        }
-        --quantity;
+
+    public Ticket buyOneDayPassport(int handedMoney) {
+        checkQuantity();
+
+        //受け取ったお金が足りてるか確認する
         if (handedMoney < ONE_DAY_PRICE) {
             throw new TicketShortMoneyException("Short money: " + handedMoney);
         }
+        salesTicketMoneyManager(ONE_DAY_PRICE);
+        Ticket oneDayPass = new Ticket(ONE_DAY_PRICE);
+
+        return oneDayPass;
+    }
+
+    public TicketBuyResult buyTwoDayPassport(int handedMoney) {
+        checkQuantity();
+
+        if (handedMoney < TWO_DAY_PRICE) {
+            throw new TicketShortMoneyException("Short money:" + handedMoney);
+        }
+        salesTicketMoneyManager(TWO_DAY_PRICE);
+        int change = handedMoney - TWO_DAY_PRICE;
+
+        Ticket ticket = new Ticket(TWO_DAY_PRICE);
+        TicketBuyResult twoDayPass = new TicketBuyResult(ticket, change);
+
+        return twoDayPass;
+    }
+
+    //====================Good Luckの問題用====================//
+    //    public OneDayTicket buyOneDayPassport(int handedMoney) {
+    //        checkQuantity();
+    //
+    //        //受け取ったお金が足りてるか確認する
+    //        if (handedMoney < ONE_DAY_PRICE) {
+    //            throw new TicketShortMoneyException("Short money: " + handedMoney);
+    //        }
+    //
+    //        salesTicketMoneyManager(ONE_DAY_PRICE);
+    //
+    //        OneDayTicket oneDayPass = new OneDayTicket(ONE_DAY_PRICE);
+    //        return oneDayPass;
+    //    }
+    //
+    //    public FewDaysTicket buyTwoDayPassport(int handedMoney) {
+    //        checkQuantity();
+    //
+    //        if (handedMoney < TWO_DAY_PRICE) {
+    //            throw new TicketShortMoneyException("Short money: " + handedMoney);
+    //        }
+    //        salesTicketMoneyManager(TWO_DAY_PRICE);
+    //
+    //        FewDaysTicket twoDayPass = new FewDaysTicket(TWO_DAY_PRICE, 2);
+    //        return twoDayPass;
+    //    }
+
+    //コースの値段を受け取って売れたチケットの枚数分を利益に足す
+    public void salesTicketMoneyManager(int dayPrice) {
+        --quantity;
         if (salesProceeds != null) {
-            salesProceeds = salesProceeds + handedMoney;
+            salesProceeds = salesProceeds + dayPrice * (MAX_QUANTITY - quantity);
         } else {
-            salesProceeds = handedMoney;
+            salesProceeds = dayPrice * (MAX_QUANTITY - quantity);
+        }
+    }
+
+    public void checkQuantity() {
+        //チケットの数を確認する
+        if (quantity <= 0) {
+            throw new TicketSoldOutException("Sold out");
         }
     }
 
@@ -84,4 +143,5 @@ public class TicketBooth {
     public Integer getSalesProceeds() {
         return salesProceeds;
     }
+
 }

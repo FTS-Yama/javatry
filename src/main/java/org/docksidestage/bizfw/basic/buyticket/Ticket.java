@@ -38,7 +38,7 @@ public class Ticket {
     //                                                                             =======
     public void doInPark() {
         if (alreadyIn) {
-            throw new IllegalStateException("Already in park by this ticket: displayedPrice=" + displayPrice);
+            throw new IllegalStateException("Already in park by this ticket: displayPrice" + displayPrice);
         }
         alreadyIn = true;
     }
@@ -54,3 +54,9 @@ public class Ticket {
         return alreadyIn;
     }
 }
+//====================Good Luckの問題用====================//
+//public interface Ticket {
+//    public void doInPark();
+//
+//    public int getDisplayPrice();
+//}
