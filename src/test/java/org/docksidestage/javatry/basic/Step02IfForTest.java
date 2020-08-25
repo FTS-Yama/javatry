@@ -52,7 +52,7 @@ public class Step02IfForTest extends PlainTestCase {
         } else {
             sea = 7;
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => 7
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -67,7 +67,7 @@ public class Step02IfForTest extends PlainTestCase {
         } else {
             sea = 9;
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => 7
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -91,7 +91,7 @@ public class Step02IfForTest extends PlainTestCase {
         if (land) {
             sea = 10;
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => 10
     }
 
     // ===================================================================================
@@ -107,7 +107,7 @@ public class Step02IfForTest extends PlainTestCase {
                 sea = stage;
             }
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => dockside
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -117,7 +117,7 @@ public class Step02IfForTest extends PlainTestCase {
         for (String stage : stageList) {
             sea = stage;
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => magiclamp
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -133,7 +133,7 @@ public class Step02IfForTest extends PlainTestCase {
                 break;
             }
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => hangar
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -149,7 +149,7 @@ public class Step02IfForTest extends PlainTestCase {
             }
         });
         String sea = sb.toString();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => dockside
     }
 
     // ===================================================================================
@@ -159,8 +159,21 @@ public class Step02IfForTest extends PlainTestCase {
      * Make list containing "a" from list of prepareStageList() and show it as log by loop. (without Stream API) <br>
      * (prepareStageList()のリストから "a" が含まれているものだけのリストを作成して、それをループで回してログに表示しましょう。(Stream APIなしで))
      */
+
+    public void test_iffor_making_listcontains_a(final List<String> stage2List, final String stage) {
+        if (stage.contains("a")) {
+            stage2List.add(stage);
+            log(stage2List);
+        }
+    }
+
     public void test_iffor_making() {
         // write if-for here
+        final List<String> stageList = prepareStageList();
+        final List<String> stage2List = new ArrayList<>();
+        for (final String stage : stageList) {
+            test_iffor_making_listcontains_a(stage2List, stage);
+        }
     }
 
     // ===================================================================================
@@ -170,6 +183,18 @@ public class Step02IfForTest extends PlainTestCase {
      * Change foreach statement to List's forEach() (keep result after fix) <br>
      * (foreach文をforEach()メソッドへの置き換えてみましょう (修正前と修正後で実行結果が同じになるように))
      */
+    public void test_iffor_refactor_foreach_to_forEach() {
+        final List<String> stageList = prepareStageList();
+        final StringBuilder sea = new StringBuilder();
+        stageList.forEach(stage -> {
+            if (stage.contains("ga")) {
+                sea.append(stage);
+                return;
+            }
+        });
+        log(sea); // should be same as before-fix
+    }
+    /*
     public void test_iffor_refactor_foreach_to_forEach() {
         List<String> stageList = prepareStageList();
         String sea = null;
@@ -184,6 +209,7 @@ public class Step02IfForTest extends PlainTestCase {
         }
         log(sea); // should be same as before-fix
     }
+     */
 
     /**
      * Make your original exercise as question style about if-for statement. <br>
@@ -191,12 +217,23 @@ public class Step02IfForTest extends PlainTestCase {
      * <pre>
      * _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
      * your question here (ここにあなたの質問を):
-     * 
+     *メソッド終了時の変数seaの中身は？
      * _/_/_/_/_/_/_/_/_/_/
      * </pre>
      */
     public void test_iffor_yourExercise() {
         // write your code here
+        List<String> stageList = prepareStageList();
+        for (final String stage : stageList) {
+            test_iffor_yourExercise_method(stage, stageList);
+        }
+    }
+
+    private void test_iffor_yourExercise_method(final String stage, final List<String> stageList) {
+        if (stage.contains("o")) {
+            final String sea = stage;
+            log(sea);
+        }
     }
 
     // ===================================================================================
