@@ -16,19 +16,17 @@
 package org.docksidestage.bizfw.basic.objanimal;
 
 import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The object for animal(動物).
  * @author jflute
  */
-public abstract class Animal implements Loudable {
+public abstract class Animal extends BarkingProcess implements Loudable {
 
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final Logger logger = LoggerFactory.getLogger(Animal.class);
+    //private static final Logger logger = LoggerFactory.getLogger(Animal.class);
 
     // ===================================================================================
     //                                                                           Attribute
@@ -46,33 +44,7 @@ public abstract class Animal implements Loudable {
         return 10; // as default
     }
 
-    // ===================================================================================
-    //                                                                               Bark
-    //                                                                              ======
-    public BarkedSound bark() {
-        breatheIn();
-        prepareAbdominalMuscle();
-        String barkWord = getBarkWord();
-        BarkedSound barkedSound = doBark(barkWord);
-        return barkedSound;
-    }
-
-    protected void prepareAbdominalMuscle() {
-        logger.debug("...Using my abdominal muscle"); // dummy implementation
-        downHitPoint();
-    }
-
-    protected void breatheIn() {
-        logger.debug("...Breathing in"); // dummy implementation
-        downHitPoint();
-    }
-
     protected abstract String getBarkWord();
-
-    protected BarkedSound doBark(String barkWord) {
-        downHitPoint();
-        return new BarkedSound(barkWord);
-    }
 
     // ===================================================================================
     //                                                                           Hit Point
@@ -89,7 +61,7 @@ public abstract class Animal implements Loudable {
     //                                                                              ======
     @Override
     public String soundLoudly() {
-        return bark().getBarkWord();
+        return getBarkWord();
     }
 
     // ===================================================================================
