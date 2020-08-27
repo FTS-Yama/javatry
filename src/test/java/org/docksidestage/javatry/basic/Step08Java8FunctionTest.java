@@ -68,7 +68,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         log("...Executing lambda expression style callback");
         helpCallbackConsumer(stage -> log(stage + ": " + title));
 
-        // your answer? => 
+        // your answer? => yes
 
         // cannot reassign because it is used at callback process
         //title = "wave";
@@ -84,7 +84,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
             log(stage);
         });
         log("lost river");
-        // your answer? => 
+        // your answer? => harbor,bloadway,dockside,hangar,lost river
     }
 
     private class St8BasicConsumer implements Consumer<String> {
@@ -116,7 +116,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         String sea = helpCallbackFunction(number -> {
             return label + ": " + number;
         });
-        log(sea); // your answer? => 
+        log(sea); // your answer? => number: 7
     }
 
     private String helpCallbackFunction(Function<Integer, String> oneArgLambda) {
@@ -176,7 +176,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
             St8Member member = optMember.get();
             log(member.getMemberId(), member.getMemberName());
         }
-        // your answer? => 
+        // your answer? => yes
     }
 
     /**
@@ -192,7 +192,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         optMember.ifPresent(member -> {
             log(member.getMemberId(), member.getMemberName());
         });
-        // your answer? => 
+        // your answer? => yes
     }
 
     /**
@@ -202,12 +202,12 @@ public class Step08Java8FunctionTest extends PlainTestCase {
     public void test_java8_optional_map_flatMap() {
         St8DbFacade facade = new St8DbFacade();
 
-        St8Member oldmemberFirst = facade.oldselectMember(1);
+        St8Member oldmemberFirst = facade.oldselectMember(1);// (1,broadwway,(11,music))
         String sea;
         if (oldmemberFirst != null) {
-            St8Withdrawal withdrawal = oldmemberFirst.oldgetWithdrawal();
+            St8Withdrawal withdrawal = oldmemberFirst.oldgetWithdrawal();// (11,music)
             if (withdrawal != null) {
-                sea = withdrawal.oldgetPrimaryReason();
+                sea = withdrawal.oldgetPrimaryReason();//music
             } else {
                 sea = "*no reason1";
             }
@@ -215,32 +215,37 @@ public class Step08Java8FunctionTest extends PlainTestCase {
             sea = "*no reason2";
         }
 
-        Optional<St8Member> optMemberFirst = facade.selectMember(1);
-        String land = optMemberFirst.flatMap(mb -> mb.getWithdrawal()).flatMap(wdl -> wdl.getPrimaryReason()).orElse("*no reason");
-
-        String piari = optMemberFirst.flatMap(mb -> {
-            return mb.getWithdrawal();
-        }).map(wdl -> {
-            return wdl.oldgetPrimaryReason();
-        }).orElse("*no reason");
-
-        String bonvo = facade.selectMember(2).flatMap(mb -> {
-            return mb.getWithdrawal();
-        }).map(wdl -> wdl.oldgetPrimaryReason()).orElse("*no reason");
-
-        String dstore = facade.selectMember(3) //
-                .flatMap(mb -> mb.getWithdrawal()) //
-                .flatMap(wdl -> wdl.getPrimaryReason()) //
+        Optional<St8Member> optMemberFirst = facade.selectMember(1);// (1,broadway,(11,music))
+        String land = optMemberFirst.flatMap(mb -> mb.getWithdrawal())// (11,music)
+                .flatMap(wdl -> wdl.getPrimaryReason())// music
                 .orElse("*no reason");
 
-        Integer amba = facade.selectMember(2).flatMap(mb -> mb.getWithdrawal()).map(wdl -> wdl.getWithdrawalId()).orElse(-1);
+        String piari = optMemberFirst.flatMap(mb -> {
+            return mb.getWithdrawal();// (11,music)
+        }).map(wdl -> {
+            return wdl.oldgetPrimaryReason();// music
+        }).orElse("*no reason");
 
-        log(sea); // your answer? => 
-        log(land); // your answer? => 
-        log(piari); // your answer? => 
-        log(bonvo); // your answer? => 
-        log(dstore); // your answer? => 
-        log(amba); // your answer? => 
+        String bonvo = facade.selectMember(2).flatMap(mb -> {// (2,dockside,(12,null))
+            return mb.getWithdrawal();// (12,null)
+        }).map(wdl -> wdl.oldgetPrimaryReason()).orElse("*no reason");// *no reason
+
+        String dstore = facade.selectMember(3) // (3,hangar,null)
+                .flatMap(mb -> mb.getWithdrawal()) // null
+                .flatMap(wdl -> wdl.getPrimaryReason()) // null
+                .orElse("*no reason");// *no reason
+
+        Integer amba = facade.selectMember(2)// (2,dockside,(12,null))
+                .flatMap(mb -> mb.getWithdrawal())// (12,null)
+                .map(wdl -> wdl.getWithdrawalId())// 12
+                .orElse(-1);
+
+        log(sea); // your answer? =>    music
+        log(land); // your answer? =>   music
+        log(piari); // your answer? =>  music
+        log(bonvo); // your answer? =>  *no reason
+        log(dstore); // your answer? => *no reason
+        log(amba); // your answer? =>   12
     }
 
     /**
@@ -248,18 +253,18 @@ public class Step08Java8FunctionTest extends PlainTestCase {
      * (メソッド終了時の変数 sea の中身は？)
      */
     public void test_java8_optional_orElseThrow() {
-        Optional<St8Member> optMember = new St8DbFacade().selectMember(2);
-        St8Member member = optMember.orElseThrow(() -> new IllegalStateException("over"));
+        Optional<St8Member> optMember = new St8DbFacade().selectMember(2);// (2,dockside,(12,null))
+        St8Member member = optMember.orElseThrow(() -> new IllegalStateException("over"));// (2,dockside,(12,null))
         String sea = "the";
         try {
-            String reason = member.getWithdrawal().map(wdl -> wdl.oldgetPrimaryReason()).orElseThrow(() -> {
+            String reason = member.getWithdrawal().map(wdl -> wdl.oldgetPrimaryReason()).orElseThrow(() -> {// null
                 return new IllegalStateException("wave");
             });
             sea = reason;
         } catch (IllegalStateException e) {
             sea = e.getMessage();
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => wave
     }
 
     // ===================================================================================
@@ -273,19 +278,19 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         List<St8Member> memberList = new St8DbFacade().selectMemberListAll();
         List<String> oldfilteredNameList = new ArrayList<>();
         for (St8Member member : memberList) {
-            if (member.getWithdrawal().isPresent()) {
+            if (member.getWithdrawal().isPresent()) {// St8Withdrawalのインスタンスを保持していればtrue,持っていなければfalse
                 oldfilteredNameList.add(member.getMemberName());
             }
         }
         String sea = oldfilteredNameList.toString();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => [broadway,dockside]
 
-        List<String> filteredNameList = memberList.stream() //
-                .filter(mb -> mb.getWithdrawal().isPresent()) //
-                .map(mb -> mb.getMemberName()) //
-                .collect(Collectors.toList());
+        List<String> filteredNameList = memberList.stream() // stream()は調べても分からなかった。
+                .filter(mb -> mb.getWithdrawal().isPresent()) // Withdrawalに値が入ってるものだけ残す
+                .map(mb -> mb.getMemberName()) // Stringに変換
+                .collect(Collectors.toList()); // Listに変換
         String land = filteredNameList.toString();
-        log(land); // your answer? => 
+        log(land); // your answer? => [broadway,dockside]
     }
 
     /**
@@ -295,13 +300,13 @@ public class Step08Java8FunctionTest extends PlainTestCase {
     public void test_java8_stream_map_flatMap() {
         List<St8Member> memberList = new St8DbFacade().selectMemberListAll();
         int sea = memberList.stream()
-                .filter(mb -> mb.getWithdrawal().isPresent())
-                .flatMap(mb -> mb.getPurchaseList().stream())
-                .filter(pur -> pur.getPurchaseId() > 100)
-                .mapToInt(pur -> pur.getPurchasePrice())
-                .distinct()
-                .sum();
-        log(sea); // your answer? => 
+                .filter(mb -> mb.getWithdrawal().isPresent())// Withdrawalを持っているものだけ残す
+                .flatMap(mb -> mb.getPurchaseList().stream())// PurchaseListを呼び出す(...?)
+                .filter(pur -> pur.getPurchaseId() > 100)// PurchaseIdが100より大きいものだけ残す
+                .mapToInt(pur -> pur.getPurchasePrice())// mapで受け取った値を数値に変換
+                .distinct()// 重複している数値を削除
+                .sum();// 全部足す
+        log(sea); // your answer? => 600
     }
 
     // *Stream API will return at Step12 again, it's worth the wait!
