@@ -20,6 +20,7 @@ import org.docksidestage.bizfw.basic.buyticket.OneDayTicket;
 import org.docksidestage.bizfw.basic.buyticket.Ticket;
 import org.docksidestage.bizfw.basic.buyticket.TicketBooth;
 import org.docksidestage.bizfw.basic.buyticket.TicketBooth.TicketShortMoneyException;
+import org.docksidestage.bizfw.basic.buyticket.TicketBooth2;
 import org.docksidestage.bizfw.basic.buyticket.TicketBuyResult;
 import org.docksidestage.unit.PlainTestCase;
 
@@ -200,15 +201,15 @@ public class Step05ClassTest extends PlainTestCase {
      */
     public void test_class_moreFix_useInterface() {
         // your confirmation code here
-        final TicketBooth booth = new TicketBooth();
-        OneDayTicket oneDayTicket = booth.buyOneDayPassport(10000);
+        final TicketBooth2 booth2 = new TicketBooth2();
+        OneDayTicket oneDayTicket = booth2.buyOneDayPassport(10000);
         log("oneDayTicket");
         log(oneDayTicket.getDisplayPrice());
         oneDayTicket.doInPark();
         log(oneDayTicket.isAlreadyIn());
 
         log("twoDayTicket");
-        final FewDaysTicket fewDaysTicket = booth.buyTwoDayPassport(14000);
+        final FewDaysTicket fewDaysTicket = booth2.buyTwoDayPassport(14000);
         log(fewDaysTicket.getDisplayPrice());
         for_inPark(fewDaysTicket, 2);
 

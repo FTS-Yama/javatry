@@ -18,45 +18,39 @@ package org.docksidestage.bizfw.basic.buyticket;
 /**
  * @author jflute
  */
-//public class Ticket {
-//
-//    // ===================================================================================
-//    //                                                                           Attribute
-//    //                                                                           =========
-//    private final int displayPrice;
-//    private boolean alreadyIn;
-//
-//    // ===================================================================================
-//    //                                                                         Constructor
-//    //                                                                         ===========
-//    public Ticket(int displayPrice) {
-//        this.displayPrice = displayPrice;
-//    }
-//
-//    // ===================================================================================
-//    //                                                                             In Park
-//    //                                                                             =======
-//    public void doInPark() {
-//        if (alreadyIn) {
-//            throw new IllegalStateException("Already in park by this ticket: displayPrice" + displayPrice);
-//        }
-//        alreadyIn = true;
-//    }
-//
-//    // ===================================================================================
-//    //                                                                            Accessor
-//    //                                                                            ========
-//    public int getDisplayPrice() {
-//        return displayPrice;
-//    }
-//
-//    public boolean isAlreadyIn() {
-//        return alreadyIn;
-//    }
-//}
-//====================Good Luckの問題用====================//
-public interface Ticket {
-    public void doInPark();
+public class Ticket {
 
-    public int getDisplayPrice();
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
+    private final int displayPrice;
+    private boolean alreadyIn;
+
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
+    public Ticket(int displayPrice) {
+        this.displayPrice = displayPrice;
+    }
+
+    // ===================================================================================
+    //                                                                             In Park
+    //                                                                             =======
+    public void doInPark() {
+        if (alreadyIn) {
+            throw new IllegalStateException("Already in park by this ticket: displayPrice" + displayPrice);
+        }
+        alreadyIn = true;
+    }
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
+    public int getDisplayPrice() {
+        return displayPrice;
+    }
+
+    public boolean isAlreadyIn() {
+        return alreadyIn;
+    }
 }

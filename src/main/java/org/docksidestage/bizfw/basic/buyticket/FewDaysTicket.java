@@ -1,6 +1,6 @@
 package org.docksidestage.bizfw.basic.buyticket;
 
-public class FewDaysTicket implements Ticket {
+public class FewDaysTicket implements Ticket2 {
 
     private final int displayPrice;
     private boolean alreadyIn;
