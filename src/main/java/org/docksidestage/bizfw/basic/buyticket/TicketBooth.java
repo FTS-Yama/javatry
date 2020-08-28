@@ -43,60 +43,61 @@ public class TicketBooth {
     //                                                                          Buy Ticket
     //                                                                          ==========
 
-    public Ticket buyOneDayPassport(int handedMoney) {
-        checkQuantity();
-
-        //受け取ったお金が足りてるか確認する
-        if (handedMoney < ONE_DAY_PRICE) {
-            throw new TicketShortMoneyException("Short money: " + handedMoney);
-        }
-        salesTicketMoneyManager(ONE_DAY_PRICE);
-        Ticket oneDayPass = new Ticket(ONE_DAY_PRICE);
-
-        return oneDayPass;
-    }
-
-    public TicketBuyResult buyTwoDayPassport(int handedMoney) {
-        checkQuantity();
-
-        if (handedMoney < TWO_DAY_PRICE) {
-            throw new TicketShortMoneyException("Short money:" + handedMoney);
-        }
-        salesTicketMoneyManager(TWO_DAY_PRICE);
-        int change = handedMoney - TWO_DAY_PRICE;
-
-        Ticket ticket = new Ticket(TWO_DAY_PRICE);
-        TicketBuyResult twoDayPass = new TicketBuyResult(ticket, change);
-
-        return twoDayPass;
-    }
-
-    //====================Good Luckの問題用====================//
-    //    public OneDayTicket buyOneDayPassport(int handedMoney) {
+    //    public Ticket buyOneDayPassport(int handedMoney) {
     //        checkQuantity();
     //
     //        //受け取ったお金が足りてるか確認する
     //        if (handedMoney < ONE_DAY_PRICE) {
     //            throw new TicketShortMoneyException("Short money: " + handedMoney);
     //        }
-    //
     //        salesTicketMoneyManager(ONE_DAY_PRICE);
+    //        Ticket oneDayPass = new Ticket(ONE_DAY_PRICE);
     //
-    //        OneDayTicket oneDayPass = new OneDayTicket(ONE_DAY_PRICE);
     //        return oneDayPass;
     //    }
     //
-    //    public FewDaysTicket buyTwoDayPassport(int handedMoney) {
+    //    public TicketBuyResult buyTwoDayPassport(int handedMoney) {
     //        checkQuantity();
     //
     //        if (handedMoney < TWO_DAY_PRICE) {
-    //            throw new TicketShortMoneyException("Short money: " + handedMoney);
+    //            throw new TicketShortMoneyException("Short money:" + handedMoney);
     //        }
     //        salesTicketMoneyManager(TWO_DAY_PRICE);
+    //        int change = handedMoney - TWO_DAY_PRICE;
     //
-    //        FewDaysTicket twoDayPass = new FewDaysTicket(TWO_DAY_PRICE, 2);
+    //        Ticket ticket = new Ticket(TWO_DAY_PRICE);
+    //        TicketBuyResult twoDayPass = new TicketBuyResult(ticket, change);
+    //
     //        return twoDayPass;
     //    }
+
+    //====================Good Luckの問題用====================//
+    public OneDayTicket buyOneDayPassport(int handedMoney) {
+        checkQuantity();
+
+        //受け取ったお金が足りてるか確認する
+        if (handedMoney < ONE_DAY_PRICE) {
+            throw new TicketShortMoneyException("Short money: " + handedMoney);
+        }
+
+        salesTicketMoneyManager(ONE_DAY_PRICE);
+
+        OneDayTicket oneDayPass = new OneDayTicket(ONE_DAY_PRICE);
+        return oneDayPass;
+    }
+
+    public FewDaysTicket buyTwoDayPassport(int handedMoney) {
+        checkQuantity();
+
+        if (handedMoney < TWO_DAY_PRICE) {
+            throw new TicketShortMoneyException("Short money: " + handedMoney);
+        }
+        salesTicketMoneyManager(TWO_DAY_PRICE);
+
+        FewDaysTicket twoDayPass = new FewDaysTicket(TWO_DAY_PRICE, 2);
+        return twoDayPass;
+    }
+    //==========================================================//
 
     //コースの値段を受け取って売れたチケットの枚数分を利益に足す
     public void salesTicketMoneyManager(int dayPrice) {
