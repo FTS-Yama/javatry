@@ -18,7 +18,7 @@ package org.docksidestage.bizfw.basic.buyticket;
 /**
  * @author jflute
  */
-public class TicketBooth {
+public class TicketBooth2 {
 
     // ===================================================================================
     //                                                                          Definition
@@ -36,38 +36,35 @@ public class TicketBooth {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public TicketBooth() {
+    public TicketBooth2() {
     }
 
     // ===================================================================================
     //                                                                          Buy Ticket
     //                                                                          ==========
-
-    public Ticket buyOneDayPassport(int handedMoney) {
+    public OneDayTicket buyOneDayPassport(int handedMoney) {
         checkQuantity();
 
         //受け取ったお金が足りてるか確認する
         if (handedMoney < ONE_DAY_PRICE) {
             throw new TicketShortMoneyException("Short money: " + handedMoney);
         }
-        salesTicketMoneyManager(ONE_DAY_PRICE);
-        Ticket oneDayPass = new Ticket(ONE_DAY_PRICE);
 
+        salesTicketMoneyManager(ONE_DAY_PRICE);
+
+        OneDayTicket oneDayPass = new OneDayTicket(ONE_DAY_PRICE);
         return oneDayPass;
     }
 
-    public TicketBuyResult buyTwoDayPassport(int handedMoney) {
+    public FewDaysTicket buyTwoDayPassport(int handedMoney) {
         checkQuantity();
 
         if (handedMoney < TWO_DAY_PRICE) {
-            throw new TicketShortMoneyException("Short money:" + handedMoney);
+            throw new TicketShortMoneyException("Short money: " + handedMoney);
         }
         salesTicketMoneyManager(TWO_DAY_PRICE);
-        int change = handedMoney - TWO_DAY_PRICE;
 
-        Ticket ticket = new Ticket(TWO_DAY_PRICE);
-        TicketBuyResult twoDayPass = new TicketBuyResult(ticket, change);
-
+        FewDaysTicket twoDayPass = new FewDaysTicket(TWO_DAY_PRICE, 2);
         return twoDayPass;
     }
 

@@ -21,10 +21,17 @@ import org.docksidestage.bizfw.basic.objanimal.Animal;
 import org.docksidestage.bizfw.basic.objanimal.BarkedSound;
 import org.docksidestage.bizfw.basic.objanimal.Cat;
 import org.docksidestage.bizfw.basic.objanimal.Dog;
+import org.docksidestage.bizfw.basic.objanimal.Rabbit;
 import org.docksidestage.bizfw.basic.objanimal.Zombie;
+import org.docksidestage.bizfw.basic.objanimal.jump.HighJump;
 import org.docksidestage.bizfw.basic.objanimal.loud.AlarmClock;
 import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
 import org.docksidestage.bizfw.basic.objanimal.runner.FastRunner;
+import org.docksidestage.javatry.basic.st6.dbms.St6MySql;
+import org.docksidestage.javatry.basic.st6.dbms.St6PostgreSql;
+import org.docksidestage.javatry.basic.st6.os.Mac;
+import org.docksidestage.javatry.basic.st6.os.Old_Windows;
+import org.docksidestage.javatry.basic.st6.os.Windows;
 import org.docksidestage.unit.PlainTestCase;
 
 /**
@@ -65,12 +72,12 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
             throw new IllegalStateException("Short money: handedMoney=" + handedMoney);
         }
         --quantity;
-        salesProceeds = handedMoney;
+        salesProceeds = oneDayPrice;
 
         //
         // [ticket info]
         //
-        int displayPrice = quantity;
+        int displayPrice = oneDayPrice;
         boolean alreadyIn = false;
 
         // other processes here...
@@ -81,7 +88,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // [do in park now!!!]
         //
         if (alreadyIn) {
-            throw new IllegalStateException("Already in park by this ticket: displayPrice=" + quantity);
+            throw new IllegalStateException("Already in park by this ticket: displayPrice=" + displayPrice);
         }
         alreadyIn = true;
 
@@ -89,13 +96,14 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // [final process]
         //
         saveBuyingHistory(quantity, displayPrice, salesProceeds, alreadyIn);
+
     }
 
     private void saveBuyingHistory(int quantity, Integer salesProceeds, int displayPrice, boolean alreadyIn) {
         if (alreadyIn) {
             // only logging here (normally e.g. DB insert)
-            showTicketBooth(displayPrice, salesProceeds);
-            showYourTicket(quantity, alreadyIn);
+            showTicketBooth(quantity, salesProceeds);
+            showYourTicket(displayPrice, alreadyIn);
         }
     }
 
@@ -197,9 +205,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         Dog dog = new Dog();
         BarkedSound sound = dog.bark();
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => wan
         int land = dog.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => 7
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -207,9 +215,10 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         Animal animal = new Dog();
         BarkedSound sound = animal.bark();
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => wan
         int land = animal.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => 7
+        // 変数名を変えても値は変わらない
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -217,9 +226,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         Animal animal = createAnyAnimal();
         BarkedSound sound = animal.bark();
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => wan
         int land = animal.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => 7
     }
 
     private Animal createAnyAnimal() {
@@ -235,9 +244,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     private void doAnimalSeaLand_for_4th(Animal animal) {
         BarkedSound sound = animal.bark();
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => wan
         int land = animal.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => 7
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -245,9 +254,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         Animal animal = new Cat();
         BarkedSound sound = animal.bark();
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => nya-
         int land = animal.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => 5
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -255,9 +264,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         Animal animal = new Zombie();
         BarkedSound sound = animal.bark();
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => uooo
         int land = animal.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => -1
     }
 
     // ===================================================================================
@@ -267,18 +276,18 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     public void test_objectOriented_polymorphism_interface_dispatch() {
         Loudable loudable = new Zombie();
         String sea = loudable.soundLoudly();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => uooo
         String land = ((Zombie) loudable).bark().getBarkWord();
-        log(land); // your answer? => 
+        log(land); // your answer? => uooo
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_objectOriented_polymorphism_interface_hierarchy() {
         Loudable loudable = new AlarmClock();
         String sea = loudable.soundLoudly();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => jiri jiri jiri---
         boolean land = loudable instanceof Animal;
-        log(land); // your answer? => 
+        log(land); // your answer? => false
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -286,9 +295,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         Animal seaAnimal = new Cat();
         Animal landAnimal = new Zombie();
         boolean sea = seaAnimal instanceof FastRunner;
-        log(sea); // your answer? => 
+        log(sea); // your answer? => true
         boolean land = landAnimal instanceof FastRunner;
-        log(land); // your answer? => 
+        log(land); // your answer? => false
     }
 
     /**
@@ -297,6 +306,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_polymorphism_interface_runnerImpl() {
         // your confirmation code here
+        final Dog dog = new Dog();
+        final boolean sea = dog instanceof FastRunner;
+        log(sea);
     }
 
     // ===================================================================================
@@ -308,6 +320,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_polymorphism_makeConcrete() {
         // your confirmation code here
+        Rabbit rabbit = new Rabbit();
+        final String sea = rabbit.bark().getBarkWord();
+        log(sea);
     }
 
     /**
@@ -316,6 +331,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_polymorphism_makeInterface() {
         // your confirmation code here
+        Rabbit rabbit = new Rabbit();
+        final boolean sea = rabbit instanceof HighJump;
+        log(sea);
     }
 
     // ===================================================================================
@@ -327,6 +345,11 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_writing_generalization_extractToAbstract() {
         // your confirmation code here
+        St6MySql mysql = new St6MySql();
+        log(mysql.buildPagingQuery(5, 3));
+        St6PostgreSql postgresql = new St6PostgreSql();
+        log(postgresql.buildPagingQuery(5, 3));
+
     }
 
     /**
@@ -335,6 +358,13 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_writing_specialization_extractToConcrete() {
         // your confirmation code here
+        Mac os1 = new Mac();
+        log(os1.buildUserResourcePath("Mac"));
+        Windows os2 = new Windows();
+        log(os2.buildUserResourcePath("Windows"));
+        Old_Windows os3 = new Old_Windows();
+        log(os3.buildUserResourcePath("Old_Windows"));
+
     }
 
     // ===================================================================================
@@ -346,6 +376,13 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_writing_withDelegation() {
         // your confirmation code here
+        Animal animal = new Cat();
+        BarkedSound sound = animal.bark();
+        String sea = sound.getBarkWord();
+        log(sea);
+        int land = animal.getHitPoint();
+        log(land);
+
     }
 
     /**

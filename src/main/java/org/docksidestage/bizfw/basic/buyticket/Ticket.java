@@ -38,7 +38,7 @@ public class Ticket {
     //                                                                             =======
     public void doInPark() {
         if (alreadyIn) {
-            throw new IllegalStateException("Already in park by this ticket: displayedPrice=" + displayPrice);
+            throw new IllegalStateException("Already in park by this ticket: displayPrice" + displayPrice);
         }
         alreadyIn = true;
     }
